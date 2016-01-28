@@ -31,8 +31,19 @@ node default {
     ensure        => installed,
     allow_virtual => true,
   } ->
-  package { ['avr-libc', 'avra', 'avrdude', 'avrp', 'avrprog', 'binutils-avr', 'gcc-avr', 'gdb-avr', 'simulavr']:
+  package { ['avr-libc', 'avra', 'avrdude', 'avrp', 'avrprog', 'binutils-avr', 'gcc-avr', 'gdb-avr']:
     ensure        => installed,
     allow_virtual => true,
-  }
+  } ->
+  package { ['libelf-dev', 'freeglut3-dev', 'xauth', 'pkg-config', 'strace', 'gtkwave']:
+    ensure        => installed,
+    allow_virtual => true,
+  } ->
+  exec { 'simavr install':
+    command => 'tar -xz -C / -f /vagrant/simavr.tgz',
+    unless  => 'which simavr',
+  } -> 
+  exec { 'update ldconfig':
+    command => 'ldconfig',
+  } 
 }
