@@ -1,7 +1,7 @@
 /*
  */
 
-#include <avr/io.h>
+#include "kicker-avr.h"
 
 int main(void)
 {
